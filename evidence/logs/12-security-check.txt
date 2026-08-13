@@ -1,4 +1,4 @@
-$ git diff --check
+﻿$ git diff --check
 PASS: no whitespace errors
 $ README relative-link existence check
 PASS: all relative links resolve
@@ -13,19 +13,20 @@ scripts\terminal-lab.sh
 scripts\permission-lab.sh
 README.md
 nginx\default.conf
+evidence\screenshots\vscode-git-integration.png
 evidence\screenshots\port-mapping-8080.png
-evidence\logs\12-security-check.txt
-evidence\logs\11-browser-validation.txt
-evidence\logs\10-git-config-and-remote.txt
+evidence\logs\02-terminal-operations.txt
+evidence\logs\05-ubuntu-container.txt
+evidence\logs\07-bind-mount.txt
+evidence\logs\03-permissions.txt
 evidence\logs\09-final-docker-state.txt
 evidence\logs\08-volume-persistence.txt
-evidence\logs\07-bind-mount.txt
-evidence\logs\06-build-port-health.txt
-evidence\logs\05-ubuntu-container.txt
-evidence\logs\04-hello-world-and-operations.txt
-evidence\logs\03-permissions.txt
-evidence\logs\02-terminal-operations.txt
-evidence\logs\01-environment.txt
+evidence\logs\10-git-config-and-remote.txt
 Dockerfile
+evidence\logs\01-environment.txt
+evidence\logs\04-hello-world-and-operations.txt
+evidence\logs\06-build-port-health.txt
+evidence\logs\11-browser-validation.txt
+evidence\logs\12-security-check.txt
 bind-demo\index.html
 app\index.html

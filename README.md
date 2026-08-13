@@ -69,6 +69,7 @@ git version 2.54.0.windows.1
 - [x] named volume의 컨테이너 삭제 전·후 데이터 유지 확인
 - [x] Git 작성자, noreply 이메일, 기본 브랜치 `main` 설정
 - [x] GitHub 원격 저장소 연결
+- [x] VS Code Source Control에서 `main` 커밋과 clean 상태 확인
 - [x] 민감정보 패턴 검사
 
 ## 4. 검증 방법과 증거 위치
@@ -84,7 +85,7 @@ git version 2.54.0.windows.1
 | 바인드 마운트 | `--mount type=bind`, 변경 전·후 `curl` | [07-bind-mount.txt](evidence/logs/07-bind-mount.txt) |
 | 볼륨 영속성 | `docker volume`, 컨테이너 삭제 전·후 `cat` | [08-volume-persistence.txt](evidence/logs/08-volume-persistence.txt) |
 | 최종 운영 상태 | `images`, `ps`, `ps -a`, `logs`, `stats`, `volume ls` | [09-final-docker-state.txt](evidence/logs/09-final-docker-state.txt) |
-| Git/GitHub | `git config --list`, `git remote -v` | [10-git-config-and-remote.txt](evidence/logs/10-git-config-and-remote.txt) |
+| Git/GitHub/VS Code | `git config --list`, `git remote -v`, Source Control | [Git 로그](evidence/logs/10-git-config-and-remote.txt), [VS Code 캡처](evidence/screenshots/vscode-git-integration.png) |
 | 브라우저 | URL/제목/본문/overflow 및 스크린샷 | [11-browser-validation.txt](evidence/logs/11-browser-validation.txt) |
 | 보안/문서 | 공백·상대 링크·비밀정보 패턴 검사 | [12-security-check.txt](evidence/logs/12-security-check.txt) |
 
@@ -266,7 +267,10 @@ origin  https://github.com/juhyulee/E1-1.git (push)
 
 - **Git**: 로컬 파일의 변경 이력, 브랜치, 커밋을 관리하는 버전 관리 도구
 - **GitHub**: Git 저장소를 원격에서 공유하고 리뷰·이슈·협업을 제공하는 플랫폼
-- VS Code는 이 폴더를 Git 저장소로 인식하며, Windows Git Credential Manager와 동일한 GitHub 원격을 사용합니다.
+- GitHub 인증은 Windows Git Credential Manager를 사용했으며 `git push -u origin main`이 성공했습니다.
+- VS Code는 이 폴더를 Git 저장소로 인식하며, Source Control에서 변경 파일이 없는 clean 상태와 `main` 커밋 그래프를 확인했습니다.
+
+![VS Code Source Control의 main 브랜치와 clean 상태](evidence/screenshots/vscode-git-integration.png)
 
 ## 13. 재현 방법
 

@@ -1,0 +1,51 @@
+$ docker run --rm --mount <scripts> alpine:3.22 sh /scripts/terminal-lab.sh
+$ pwd
+/
+$ ls -la
+total 64
+drwxr-xr-x    1 root     root          4096 Aug 13 03:28 .
+drwxr-xr-x    1 root     root          4096 Aug 13 03:28 ..
+-rwxr-xr-x    1 root     root             0 Aug 13 03:28 .dockerenv
+drwxr-xr-x    2 root     root          4096 Jun 21 19:05 bin
+drwxr-xr-x    5 root     root           340 Aug 13 03:28 dev
+drwxr-xr-x    1 root     root          4096 Aug 13 03:28 etc
+drwxr-xr-x    2 root     root          4096 Jun 21 19:05 home
+drwxr-xr-x    6 root     root          4096 Jun 21 19:05 lib
+drwxr-xr-x    5 root     root          4096 Jun 21 19:05 media
+drwxr-xr-x    2 root     root          4096 Jun 21 19:05 mnt
+drwxr-xr-x    2 root     root          4096 Jun 21 19:05 opt
+dr-xr-xr-x  273 root     root             0 Aug 13 03:28 proc
+drwx------    2 root     root          4096 Jun 21 19:05 root
+drwxr-xr-x    3 root     root          4096 Jun 21 19:05 run
+drwxr-xr-x    2 root     root          4096 Jun 21 19:05 sbin
+drwxrwxrwx    1 root     root           512 Aug 13 03:28 scripts
+drwxr-xr-x    2 root     root          4096 Jun 21 19:05 srv
+dr-xr-xr-x   13 root     root             0 Aug 13 03:27 sys
+drwxrwxrwt    2 root     root          4096 Jun 21 19:05 tmp
+drwxr-xr-x    7 root     root          4096 Jun 21 19:05 usr
+drwxr-xr-x   11 root     root          4096 Jun 21 19:05 var
+$ mkdir -p /lab/source
+$ cd /lab
+$ touch source/empty.txt
+$ echo "hello terminal" > source/sample.txt
+$ ls -la source
+total 12
+drwxr-xr-x    2 root     root          4096 Aug 13 03:28 .
+drwxr-xr-x    3 root     root          4096 Aug 13 03:28 ..
+-rw-r--r--    1 root     root             0 Aug 13 03:28 empty.txt
+-rw-r--r--    1 root     root            15 Aug 13 03:28 sample.txt
+$ cat source/sample.txt
+hello terminal
+$ cp source/sample.txt copied.txt
+$ mv copied.txt renamed.txt
+$ mkdir moved && mv source/sample.txt moved/renamed-sample.txt
+$ ls -la moved
+total 12
+drwxr-xr-x    2 root     root          4096 Aug 13 03:28 .
+drwxr-xr-x    4 root     root          4096 Aug 13 03:28 ..
+-rw-r--r--    1 root     root            15 Aug 13 03:28 renamed-sample.txt
+$ rm renamed.txt && rm -rf moved source
+$ ls -la
+total 8
+drwxr-xr-x    2 root     root          4096 Aug 13 03:28 .
+drwxr-xr-x    1 root     root          4096 Aug 13 03:28 ..

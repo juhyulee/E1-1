@@ -1,0 +1,13 @@
+$ docker --version
+Docker version 29.7.2, build a7dcaa6
+$ docker info --format ...
+Server Version: 29.7.2
+Operating System: Docker Desktop
+Kernel Version: 6.18.33.2-microsoft-standard-WSL2
+OS/Arch: linux/x86_64
+CPUs: 12
+Total Memory: 16742232064 bytes
+$ git --version
+git version 2.54.0.windows.1
+$ PowerShell version
+PowerShell 5.1.19041.6456 (Desktop)

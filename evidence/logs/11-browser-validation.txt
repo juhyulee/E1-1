@@ -1,0 +1,9 @@
+Browser: Codex In-app Browser (Chromium)
+URL: http://localhost:8080/
+Title: Docker Workstation · E1
+Heading: 같은 환경, 같은 실행 결과.
+Status text: ● Running
+Viewport width: 1280
+Document scroll width: 1280
+Result: HTTP page rendered successfully with no horizontal overflow.
+Screenshot: ../screenshots/port-mapping-8080.png

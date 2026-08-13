@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Docker 개발 워크스테이션 미션 검증 페이지">
+  <title>Docker Workstation · E1</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #f5f7ff;
+      --muted: #aab3c8;
+      --line: rgba(255, 255, 255, 0.12);
+      --blue: #4ca3ff;
+      --mint: #5ce1b9;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      grid-template-columns: minmax(0, 1fr);
+      padding: 32px;
+      color: var(--ink);
+      font-family: Inter, Pretendard, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(76, 163, 255, .22), transparent 30%),
+        radial-gradient(circle at 85% 80%, rgba(92, 225, 185, .16), transparent 28%),
+        #08101f;
+    }
+
+    main {
+      width: min(820px, 100%);
+      min-width: 0;
+      padding: clamp(28px, 6vw, 64px);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: rgba(12, 23, 43, .82);
+      box-shadow: 0 28px 90px rgba(0, 0, 0, .38);
+      backdrop-filter: blur(16px);
+    }
+
+    .eyebrow {
+      margin: 0 0 18px;
+      color: var(--mint);
+      font-size: 13px;
+      font-weight: 750;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 680px;
+      margin: 0;
+      font-size: clamp(42px, 8vw, 78px);
+      line-height: .98;
+      letter-spacing: -.055em;
+    }
+
+    .lead {
+      max-width: 620px;
+      margin: 28px 0 36px;
+      color: var(--muted);
+      font-size: clamp(17px, 2.4vw, 21px);
+      line-height: 1.65;
+    }
+
+    .status {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .item {
+      min-width: 0;
+      min-height: 112px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .035);
+    }
+
+    .item span {
+      display: block;
+      margin-bottom: 23px;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .item strong { font-size: 17px; overflow-wrap: anywhere; }
+    .ok { color: var(--mint); }
+
+    footer {
+      margin-top: 32px;
+      color: #768198;
+      font-size: 13px;
+    }
+
+    @media (max-width: 620px) {
+      body { padding: 18px; }
+      .status { grid-template-columns: 1fr; }
+      .item { min-height: auto; }
+      .item span { margin-bottom: 8px; }
+    }
+
+    @media (max-height: 760px) and (min-width: 621px) {
+      main { padding: 30px 48px; }
+      h1 { font-size: 56px; }
+      .lead { margin: 18px 0 24px; font-size: 18px; line-height: 1.5; }
+      .item { min-height: 88px; padding: 14px 16px; }
+      .item span { margin-bottom: 12px; }
+      footer { margin-top: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">E1 · Development Workstation</p>
+    <h1>같은 환경,<br>같은 실행 결과.</h1>
+    <p class="lead">
+      NGINX 기반 커스텀 이미지를 빌드하고 Docker Desktop의 WSL 2 엔진에서
+      실행했습니다. 이 화면은 호스트 8080 포트와 컨테이너 80 포트가 정상적으로
+      연결되었다는 증거입니다.
+    </p>
+    <section class="status" aria-label="검증 상태">
+      <div class="item"><span>Image</span><strong>e1-workstation-web:1.0</strong></div>
+      <div class="item"><span>Port</span><strong>8080 → 80</strong></div>
+      <div class="item"><span>Container</span><strong class="ok">● Running</strong></div>
+    </section>
+    <footer>Built with Docker · Served by NGINX · Verified on Windows 10</footer>
+  </main>
+</body>
+</html>

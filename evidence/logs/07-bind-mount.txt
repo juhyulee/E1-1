@@ -1,0 +1,47 @@
+$ docker run -d --name e1-bind-web -p 8081:80 --mount <bind-demo> nginx:alpine
+docker : Unable to find image 'nginx:alpine' locally
+At line:2 char:255
++ ... nx:alpine'; docker run -d --name e1-bind-web -p 8081:80 --mount $bind ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Unable to find ...alpine' locally:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+alpine: Pulling from library/nginx
+Digest: sha256:4a73073bd557c65b759505da037898b61f1be6cbcc3c2c3aeac22d2a470c1752
+Status: Downloaded newer image for nginx:alpine
+a18479d2e27be00d174fa857f9b5b6447ee75d0cf1db183a2a38cb3c62a6ec4d
+$ Get-Content bind-demo/index.html (BEFORE)
+<!doctype html>
+<html lang="ko">
+<head><meta charset="utf-8"><title>Bind Mount Demo</title></head>
+<body><h1>Bind mount version: BEFORE</h1></body>
+</html>
+
+
+$ curl.exe -s http://localhost:8081 (BEFORE)
+<!doctype html>
+<html lang="ko">
+<head><meta charset="utf-8"><title>Bind Mount Demo</title></head>
+<body><h1>Bind mount version: BEFORE</h1></body>
+</html>
+
+$ docker inspect e1-bind-web mounts
+Type=bind Source=C:\Users\juhyulee\Documents\Codex\2026-08-13\1-docker-git-cli-docker-git\bind-demo Destination=/usr/share/nginx/html RW=false
+
+# Host file edited; no docker build/restart executed
+$ Get-Content bind-demo/index.html (AFTER)
+<!doctype html>
+<html lang="ko">
+<head><meta charset="utf-8"><title>Bind Mount Demo</title></head>
+<body><h1>Bind mount version: AFTER ??reflected without rebuild</h1></body>
+</html>
+
+$ curl.exe -s http://localhost:8081 (AFTER)
+<!doctype html>
+<html lang="ko">
+<head><meta charset="utf-8"><title>Bind Mount Demo</title></head>
+<body><h1>Bind mount version: AFTER — reflected without rebuild</h1></body>
+</html>
+$ docker ps --filter name=e1-bind-web
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS                                     NAMES
+a18479d2e27b   nginx:alpine   "/docker-entrypoint.…"   30 seconds ago   Up 29 seconds   0.0.0.0:8081->80/tcp, [::]:8081->80/tcp   e1-bind-web

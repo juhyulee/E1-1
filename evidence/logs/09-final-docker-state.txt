@@ -1,0 +1,49 @@
+$ docker images
+IMAGE                    ID             DISK USAGE   CONTENT SIZE   EXTRA
+alpine:3.22              14358309a308       12.8MB         3.88MB   U
+e1-workstation-web:1.0   58e08c5eee0c       92.7MB         26.1MB   U
+hello-world:latest       5dd0d3e6e255       25.9kB         9.49kB   U
+nginx:alpine             4a73073bd557       93.6MB           27MB   U
+ubuntu:24.04             561618e2c15b        119MB         31.7MB   U
+$ docker ps
+CONTAINER ID   IMAGE                    COMMAND                  CREATED              STATUS                        PORTS                                     NAMES
+b73ac0b1b171   e1-workstation-web:1.0   "/docker-entrypoint.…"   About a minute ago   Up About a minute (healthy)   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   e1-workstation-web
+a18479d2e27b   nginx:alpine             "/docker-entrypoint.…"   4 minutes ago        Up 4 minutes                  0.0.0.0:8081->80/tcp, [::]:8081->80/tcp   e1-bind-web
+217222a6c4af   ubuntu:24.04             "sleep infinity"         6 minutes ago        Up 6 minutes                                                            e1-ubuntu-live
+$ docker ps -a
+CONTAINER ID   IMAGE                    COMMAND                  CREATED              STATUS                        PORTS                                     NAMES
+b73ac0b1b171   e1-workstation-web:1.0   "/docker-entrypoint.…"   About a minute ago   Up About a minute (healthy)   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   e1-workstation-web
+48a3b60a2532   alpine:3.22              "sh /scripts/volume-…"   4 minutes ago        Exited (0) 4 minutes ago                                                e1-volume-reader
+a18479d2e27b   nginx:alpine             "/docker-entrypoint.…"   4 minutes ago        Up 4 minutes                  0.0.0.0:8081->80/tcp, [::]:8081->80/tcp   e1-bind-web
+217222a6c4af   ubuntu:24.04             "sleep infinity"         6 minutes ago        Up 6 minutes                                                            e1-ubuntu-live
+fb4522125224   ubuntu:24.04             "sh /scripts/ubuntu-…"   6 minutes ago        Exited (0) 6 minutes ago                                                e1-ubuntu-once
+28dfebadaa7d   hello-world              "/hello"                 8 minutes ago        Exited (0) 8 minutes ago                                                e1-hello
+$ docker logs --tail 20 e1-workstation-web
+2026/08/13 03:34:43 [notice] 1#1: using the "epoll" event method
+2026/08/13 03:34:43 [notice] 1#1: nginx/1.31.3
+2026/08/13 03:34:43 [notice] 1#1: built by gcc 15.2.0 (Alpine 15.2.0)
+2026/08/13 03:34:43 [notice] 1#1: OS: Linux 6.18.33.2-microsoft-standard-WSL2
+2026/08/13 03:34:43 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2026/08/13 03:34:43 [notice] 1#1: start worker processes
+2026/08/13 03:34:43 [notice] 1#1: start worker process 29
+2026/08/13 03:34:43 [notice] 1#1: start worker process 30
+2026/08/13 03:34:43 [notice] 1#1: start worker process 31
+2026/08/13 03:34:43 [notice] 1#1: start worker process 32
+2026/08/13 03:34:43 [notice] 1#1: start worker process 33
+2026/08/13 03:34:43 [notice] 1#1: start worker process 34
+2026/08/13 03:34:43 [notice] 1#1: start worker process 35
+2026/08/13 03:34:43 [notice] 1#1: start worker process 36
+2026/08/13 03:34:43 [notice] 1#1: start worker process 37
+2026/08/13 03:34:43 [notice] 1#1: start worker process 38
+2026/08/13 03:34:43 [notice] 1#1: start worker process 39
+2026/08/13 03:34:43 [notice] 1#1: start worker process 40
+172.17.0.1 - - [13/Aug/2026:03:34:55 +0000] "GET / HTTP/1.1" 200 3802 "-" "curl/8.13.0" "-"
+172.17.0.1 - - [13/Aug/2026:03:35:03 +0000] "GET / HTTP/1.1" 200 3802 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36" "-"
+$ docker stats --no-stream
+CONTAINER ID   NAME                 CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O     PIDS
+b73ac0b1b171   e1-workstation-web   0.00%     11.61MiB / 15.59GiB   0.07%     3.31kB / 9.67kB   0B / 8.19kB   13
+a18479d2e27b   e1-bind-web          0.00%     10.09MiB / 15.59GiB   0.06%     2.51kB / 1.74kB   0B / 12.3kB   13
+217222a6c4af   e1-ubuntu-live       0.00%     408KiB / 15.59GiB     0.00%     1.93kB / 126B     0B / 0B       1
+$ docker volume ls
+DRIVER    VOLUME NAME
+local     e1-workstation-data

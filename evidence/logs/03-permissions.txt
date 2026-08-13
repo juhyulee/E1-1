@@ -1,0 +1,9 @@
+$ docker run --rm --mount <scripts> alpine:3.22 sh /scripts/permission-lab.sh
+$ chmod 600 /lab/permission-file.txt
+-rw------- 600 /lab/permission-file.txt
+$ chmod 644 /lab/permission-file.txt
+-rw-r--r-- 644 /lab/permission-file.txt
+$ chmod 700 /lab/permission-dir
+drwx------ 700 /lab/permission-dir
+$ chmod 755 /lab/permission-dir
+drwxr-xr-x 755 /lab/permission-dir

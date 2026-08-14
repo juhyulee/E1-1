@@ -77,6 +77,8 @@ rmdir practice
 - 절대 경로: 시작 위치와 관계없는 전체 주소. 예: `/home/user/project`
 - 상대 경로: 현재 위치 기준 주소. 예: `./project`, `../project`
 
+호스트 경로와 컨테이너 경로는 서로 다른 파일 시스템 기준입니다. 바인드 마운트의 `source`는 호스트에서 실제 파일이 있는 경로이고, `target`은 컨테이너 내부의 절대 경로입니다. 예를 들어 호스트에서는 저장소로 이동한 뒤 `$PWD/bind-demo`처럼 프로젝트 기준 경로를 사용하고, 컨테이너에서는 NGINX의 고정 경로인 `/usr/share/nginx/html`을 사용합니다. 저장소 문서에는 `C:\Users\...` 같은 개인별 절대 경로를 고정하지 않아야 다른 팀원도 같은 명령을 재현할 수 있습니다. Dockerfile의 `COPY app/index.html ...`에서 `app/index.html`도 빌드 컨텍스트 기준 상대 경로입니다.
+
 ## 2. 권한 실습
 
 ```bash
@@ -167,6 +169,8 @@ curl http://localhost:8080
 - 호스트의 8080 포트를 컨테이너의 80 포트에 연결했습니다.
 - 포트 매핑이 없으면 호스트 브라우저가 컨테이너의 웹 서버에 직접 접근할 수 없습니다.
 
+컨테이너는 호스트와 분리된 네트워크 네임스페이스를 사용하므로 컨테이너 안의 80 포트와 호스트의 8080 포트는 서로 다른 공간에 있습니다. `-p 8080:80`은 두 네임스페이스 사이에 전달 규칙을 만들며, 기본적으로 외부 인터페이스에도 공개될 수 있습니다. 로컬 시연만 필요하면 `-p 127.0.0.1:8080:80`으로 로컬 접속만 허용합니다. 실제 운영에서는 방화벽, 허용 IP, 인증, HTTPS를 함께 적용하고 데이터베이스 같은 내부 포트는 불필요하게 공개하지 않습니다.
+
 [빌드·포트·로그 결과](evidence/logs/06-build-port-health.txt)
 [브라우저 접속 스크린샷](evidence/screenshots/port-mapping-8080.png)
 
@@ -195,6 +199,31 @@ docker run --rm --mount source=e1-workstation-data,target=/data alpine cat /data
 첫 컨테이너를 삭제해도 두 번째 컨테이너에서 같은 파일을 읽을 수 있습니다.
 볼륨 데이터는 컨테이너가 아니라 Docker가 별도로 관리하기 때문입니다.
 
+### 볼륨 백업과 복원
+
+백업 전에는 데이터를 쓰는 컨테이너를 잠시 중지해 파일 내용이 바뀌지 않게 합니다. 다음 예시는 볼륨 내용을 호스트의 `backup/e1-volume.tar.gz`로 백업합니다.
+
+```bash
+mkdir -p backup
+docker run --rm \
+  --mount source=e1-workstation-data,target=/data,readonly \
+  --mount type=bind,source="$(pwd)/backup",target=/backup \
+  alpine tar -czf /backup/e1-volume.tar.gz -C /data .
+```
+
+새 볼륨으로 복원한 뒤 파일을 읽어 복구 여부를 확인합니다.
+
+```bash
+docker volume create e1-restored-data
+docker run --rm \
+  --mount source=e1-restored-data,target=/data \
+  --mount type=bind,source="$(pwd)/backup",target=/backup,readonly \
+  alpine tar -xzf /backup/e1-volume.tar.gz -C /data
+docker run --rm --mount source=e1-restored-data,target=/data alpine ls -la /data
+```
+
+백업 파일은 볼륨과 다른 저장 장치에 보관하고, 주기적으로 복원 테스트까지 해야 실제 데이터 손실에 대비할 수 있습니다.
+
 [볼륨 삭제 전·후 로그](evidence/logs/08-volume-persistence.txt)
 
 ## 7. Git과 GitHub
@@ -208,6 +237,7 @@ git remote -v
 ```
 
 [Git 설정과 원격 저장소 로그](evidence/logs/10-git-config-and-remote.txt)
+[Git push 및 원격 커밋 확인 로그](evidence/logs/13-git-push-and-commit.txt)
 [VSCode GitHub 연동 스크린샷](evidence/screenshots/vscode-git-integration.png)
 
 - Git: 내 컴퓨터에서 변경 이력을 관리하는 도구

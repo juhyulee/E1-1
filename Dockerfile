@@ -1,10 +1,7 @@
 FROM nginx:alpine
 
-LABEL org.opencontainers.image.title="E1 Docker Workstation Web"
-LABEL org.opencontainers.image.description="Static NGINX service for the Docker workstation mission"
-
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY app/ /usr/share/nginx/html/
+COPY app/index.html /usr/share/nginx/html/index.html
 
 EXPOSE 80
 
